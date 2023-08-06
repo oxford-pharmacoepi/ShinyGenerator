@@ -22,4 +22,8 @@ Imports:
     glue,
     magrittr,
     readr,
-    rlang
+    rlang,
+    stringr,
+    zip
+Depends: 
+    R (>= 2.10)

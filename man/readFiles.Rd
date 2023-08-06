@@ -4,10 +4,10 @@
 \alias{readFiles}
 \title{Read OMOP CDM files from a path}
 \usage{
-readFiles(path)
+readFiles(resultsPath)
 }
 \arguments{
-\item{path}{Path that points to a folder with the result files.}
+\item{resultsPath}{Path that points to a folder with the result files.}
 }
 \value{
 All elements that could be identified from the csv files.
