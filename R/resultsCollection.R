@@ -42,23 +42,22 @@ print.results_collection <- function(x, ...) {
     cli::cat_line(glue::glue("# Empty collection of results."))
   } else {
     cli::cat_line(glue::glue("# Collection of {len} results:"))
-    cli::cat_line("")
     cli::cat_bullet(messageFromType(attr(x, "specifications")))
   }
   invisible(x)
 }
 
-messageFromType <- function(type) {
-  x <- sort(unique(x$result_type))
+messageFromType <- function(specifications) {
+  x <- sort(unique(specifications  %>% dplyr::pull("result_type")))
   message <- NULL
   for (k in x) {
+    files <- specifications %>%
+      dplyr::filter(.data$result_type == .env$k) %>%
+      dplyr::pull("result_name") %>%
+      sort()
     message <- c(
       message,
-      type %>%
-        dplyr::filter(.data$result_type == .env$k) %>%
-        dplyr::pull("result_name") %>%
-        sort() %>%
-        paste0(collapse = ", ")
+      paste0(k, " (", length(files), ") : ", paste0(files, collapse = ","))
     )
   }
   return(message)

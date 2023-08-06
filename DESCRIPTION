@@ -17,9 +17,17 @@ RoxygenNote: 7.2.3
 Suggests: 
     testthat
 Imports: 
+    CDMUtilities,
     cli,
     dplyr,
     glue,
+    here,
     magrittr,
     readr,
-    rlang
+    rlang,
+    styler,
+    zip
+Remotes:
+    darwin-eu-dev/CDMUtilities
+Depends: 
+    R (>= 2.10)

@@ -1,0 +1,109 @@
+cdm_name,result_type,group_name,group_level,strata_name,strata_level,variable,variable_level,variable_type,estimate_type,estimate
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Number subjects,NA,NA,count,323
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Number records,NA,NA,count,323
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Age,NA,numeric,median,17
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Age,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Age,NA,numeric,q25,8
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Age,NA,numeric,q75,34
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Age,NA,numeric,max,68
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Future observation,NA,numeric,median,839
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Future observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Future observation,NA,numeric,q25,186
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Future observation,NA,numeric,q75,2465
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Future observation,NA,numeric,max,19505
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Prior observation,NA,numeric,median,719
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Prior observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Prior observation,NA,numeric,q25,195.5
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Prior observation,NA,numeric,q75,2472.5
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Prior observation,NA,numeric,max,16722
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Visit count -365 to 0 days,Any,numeric,median,1
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Visit count -365 to 0 days,Any,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q25,1
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q75,3
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Visit count -365 to 0 days,Any,numeric,max,10
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort end date,NA,date,median,2014-06-17
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort end date,NA,date,min,1962-03-11
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort end date,NA,date,q25,2006-05-24
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort end date,NA,date,q75,2020-02-11
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort end date,NA,date,max,2023-01-01
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort start date,NA,date,median,2012-02-20
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort start date,NA,date,min,1960-09-17
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort start date,NA,date,q25,2002-03-10
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort start date,NA,date,q75,2019-05-04
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Cohort start date,NA,date,max,2023-01-01
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Sex,Female,categorical,count,162
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Sex,Female,categorical,%,50.1547987616099
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Sex,Male,categorical,count,161
+mock dus,Summary characteristics,Cohort name,Cohort 2,Overall,Overall,Sex,Male,categorical,%,49.8452012383901
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Number subjects,NA,NA,count,336
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Number records,NA,NA,count,336
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Age,NA,numeric,median,20
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Age,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Age,NA,numeric,q25,8.75
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Age,NA,numeric,q75,37
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Age,NA,numeric,max,71
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Future observation,NA,numeric,median,731
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Future observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Future observation,NA,numeric,q25,182.5
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Future observation,NA,numeric,q75,2073.25
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Future observation,NA,numeric,max,14140
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Prior observation,NA,numeric,median,738.5
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Prior observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Prior observation,NA,numeric,q25,193.5
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Prior observation,NA,numeric,q75,2438.25
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Prior observation,NA,numeric,max,17358
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Visit count -365 to 0 days,Any,numeric,median,2
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Visit count -365 to 0 days,Any,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q25,1
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q75,3
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Visit count -365 to 0 days,Any,numeric,max,8
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort end date,NA,date,median,2014-11-28
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort end date,NA,date,min,1962-09-05
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort end date,NA,date,q25,2006-11-02
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort end date,NA,date,q75,2020-06-18
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort end date,NA,date,max,2022-12-18
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort start date,NA,date,median,2013-05-03
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort start date,NA,date,min,1961-03-20
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort start date,NA,date,q25,2002-10-27
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort start date,NA,date,q75,2019-04-08
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Cohort start date,NA,date,max,2022-12-18
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Sex,Female,categorical,count,168
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Sex,Female,categorical,%,50
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Sex,Male,categorical,count,168
+mock dus,Summary characteristics,Cohort name,Cohort 1,Overall,Overall,Sex,Male,categorical,%,50
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Number subjects,NA,NA,count,341
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Number records,NA,NA,count,341
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Age,NA,numeric,median,21
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Age,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Age,NA,numeric,q25,9
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Age,NA,numeric,q75,34
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Age,NA,numeric,max,67
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Future observation,NA,numeric,median,727
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Future observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Future observation,NA,numeric,q25,206
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Future observation,NA,numeric,q75,2047
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Future observation,NA,numeric,max,12089
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Prior observation,NA,numeric,median,591
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Prior observation,NA,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Prior observation,NA,numeric,q25,164
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Prior observation,NA,numeric,q75,1811
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Prior observation,NA,numeric,max,18465
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Visit count -365 to 0 days,Any,numeric,median,1
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Visit count -365 to 0 days,Any,numeric,min,0
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q25,0
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Visit count -365 to 0 days,Any,numeric,q75,3
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Visit count -365 to 0 days,Any,numeric,max,12
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort end date,NA,date,median,2016-03-15
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort end date,NA,date,min,1963-01-15
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort end date,NA,date,q25,2006-07-30
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort end date,NA,date,q75,2020-02-03
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort end date,NA,date,max,2022-12-30
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort start date,NA,date,median,2013-12-29
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort start date,NA,date,min,1960-06-19
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort start date,NA,date,q25,2003-05-15
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort start date,NA,date,q75,2019-06-04
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Cohort start date,NA,date,max,2022-12-30
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Sex,Female,categorical,count,168
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Sex,Female,categorical,%,49.266862170088
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Sex,Male,categorical,count,173
+mock dus,Summary characteristics,Cohort name,Cohort 3,Overall,Overall,Sex,Male,categorical,%,50.733137829912

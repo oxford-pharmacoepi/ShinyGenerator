@@ -16,7 +16,7 @@
 
 #' Read OMOP CDM files from a path
 #'
-#' @param path Path that points to a folder with the result files.
+#' @param resultsPath Path that points to a folder with the result files.
 #'
 #' @return All elements that could be identified from the csv files.
 #'
@@ -27,17 +27,17 @@
 #' library(ShinyGenerator)
 #' readFiles(here::here("Results"))
 #' }
-readFiles <- function(path) {
-  if (!dir.exists(path)) {
-    cli::cli_abort(glue::glue("No directory found in: {path}"))
+readFiles <- function(resultsPath) {
+  if (!dir.exists(resultsPath)) {
+    cli::cli_abort(glue::glue("No directory found in: {resultsPath}"))
   }
-  files <- list.files(path, full.names = TRUE)
+  files <- list.files(resultsPath, full.names = TRUE)
   if (length(files) == 0) {
-    cli::cli_abort(glue::glue("No files found in: {path}"))
+    cli::cli_abort(glue::glue("No files found in: {resultsPath}"))
   }
   files <- files[tools::file_ext(basename(files)) == "csv"]
   if (length(files) == 0) {
-    cli::cli_abort(glue::glue("No csv files found in: {path}"))
+    cli::cli_abort(glue::glue("No csv files found in: {resultsPath}"))
   }
   results <- list()
   specifications <- dplyr::tibble(
@@ -50,7 +50,7 @@ readFiles <- function(path) {
     )
     type <- getFileType(content)
     if (is.na(type)) {
-      cli::cli_warn(glue::glue("No type idenfified in file: {files[k]}"))
+      cli::cli_warn(glue::glue("No type idenfified in file: {files[k]}. File ignored."))
     } else {
       results[[nam]] <- content
       specifications <- specifications %>%
@@ -62,4 +62,13 @@ readFiles <- function(path) {
 }
 
 getFileType <- function(content) {
+  if (!("result_type" %in% colnames(content))) {
+    x <- as.character(NA)
+  } else {
+    x <- unique(content$result_type)
+    if (length(x) > 1) {
+      x <- as.character(NA)
+    }
+  }
+  return(x)
 }
