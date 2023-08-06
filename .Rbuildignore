@@ -4,3 +4,4 @@
 ^\.github$
 ^extras$
 ^data-raw$
+^ShinyGenerator\.Rproj$

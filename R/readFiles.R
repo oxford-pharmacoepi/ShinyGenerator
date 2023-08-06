@@ -50,7 +50,7 @@ readFiles <- function(resultsPath) {
     )
     type <- getFileType(content)
     if (is.na(type)) {
-      cli::cli_warn(glue::glue("No type idenfified in file: {files[k]}"))
+      cli::cli_warn(glue::glue("No type idenfified in file: {files[k]}. File ignored."))
     } else {
       results[[nam]] <- content
       specifications <- specifications %>%

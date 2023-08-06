@@ -31,3 +31,11 @@ inc %>%
   mutate(result_type = "Incidence estimates") %>%
   relocate(c("cdm_name", "result_type")) %>%
   write_csv(here::here("data-raw", "mockResults", "mockIncidence.csv"))
+
+library(PatientProfiles)
+library(DrugUtilisation)
+cdm <- mockDrugUtilisation(numberIndividuals = 1000)
+attr(cdm, "cdm_name") <- "mock dus"
+cdm$cohort1 %>%
+  summariseCharacteristics() %>%
+  write_csv(here::here("data-raw", "mockResults", "mockCharacteristics.csv"))

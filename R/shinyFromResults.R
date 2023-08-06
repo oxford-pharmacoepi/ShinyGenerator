@@ -25,76 +25,170 @@
 shinyFromResults <- function(resultsPath,
                              shinyPath = here::here(),
                              zipFile = "shiny") {
-  if (dir.exists(shinyPath)) {
+  # initial checks
+  if (!dir.exists(shinyPath)) {
     cli::cli_abort(glue::glue("Path for the shiny don't exist: {shinyPath}"))
   }
+
+  # read files
   results <- readFiles(resultsPath)
-  type <- attr(results, "specifications") %>%
-    dplyr::pull("result_type") %>%
-    unique()
-  modules <- getModules(type)
-  shiny <- writeShiny(modules)
-  files <- exportFiles(results, modules)
-  proj <- createProject(zipFile)
-  files <- c(shiny, files, proj)
-  zip::zipr(
-    zipfile = file.path(paste0(shinyPath, "/", zipFile, ".zip")),
-    files = files
-  )
-  file.remove(files)
+
+  # create shiny
+  shiny <- writeShiny(results)
+
+  # create project
+  proj <- createEmptyProject()
+
+  # export zip file
+  createZipFile(shinyPath, zipFile, shiny, proj, results)
+
+  # Final message
+  cli::cat_line(glue::glue(
+    "App succesfully created in: {shinyPath}/{zipFile}.zip"
+  ))
+
   return(invisible(shinyPath))
 }
 
-getModules <- function(type) {
-  type
-}
-createProject <- function(zipFile) {
-  x <- "Version: 1.0\n\nRestoreWorkspace: Default\nSaveWorkspace: Default\n
-  AlwaysSaveHistory: Default\n\nEnableCodeIndexing: Yes\nUseSpacesForTab: Yes\n
-  NumSpacesForTab: 2\nEncoding: UTF-8\n\nRnwWeave: Sweave\nLaTeX: pdfLaTeX"
-  file <- tempfile(zipFile, fileext = ".Rproj")
-  writeLines(x, con = file)
-  return(file)
-}
-writeShiny <- function(modules) {
-  modules <- listModules(modules)
+writeShiny <- function(results) {
+  moduleName <- getModuleName(results)
+  modules <- listModules(moduleName)
   shiny <- shinyTemplate
   shiny <- gsub("#PACKAGES#", combinePackages(modules), shiny)
-  shiny <- gsub("#LOAD#", combineLoad(modules), shiny)
+  shiny <- gsub("#READ#", combineRead(modules), shiny)
   shiny <- gsub("#MENU#", combineMenu(modules), shiny)
   shiny <- gsub("#BODY#", combineBody(modules), shiny)
   shiny <- gsub("#SERVER#", combineServer(modules), shiny)
+  shiny <- styler::style_text(shiny)
   return(shiny)
 }
-listModules <- function(modules) {
+getModuleName <- function(results) {
+  type <- attr(results, "specifications") %>%
+    dplyr::pull("result_type") %>%
+    unique()
+  moduleName <- relation %>%
+    dplyr::filter(.data$result_type %in% .env$type) %>%
+    dplyr::pull("module_name")
+  return(moduleName)
+}
+listModules <- function(moduleName) {
   result <- list()
-  for (module in modules) {
-    result[[module]] <- eval(parse(text = paste0(
-      "module", stringr::str_to_title(module)
-    )))
+  result$moduleBackground <- moduleBackground
+  for (module in moduleName) {
+    result[[module]] <- eval(parse(text = module))
   }
   return(result)
 }
 combinePackages <- function(modules) {
   lapply(modules, function(x) {
-    paste0('library("', x[["packages"]], '")')
+    paste0("library(\"", x[["packages"]],"\")")
   }) %>%
     unlist() %>%
     unique() %>%
     paste0(collapse = "\n")
 }
-combineLoad <- function(modules) {
-  ""
+combineRead <- function(modules) {
+  lapply(modules, function(x) {
+    x[["read"]]
+  }) %>%
+    unlist() %>%
+    paste0(collapse = "\n")
 }
 combineMenu <- function(modules) {
-  ""
+  menuItems <- lapply(modules, function(x) {
+    x[["menu"]]
+  }) %>%
+    dplyr::bind_rows()
+  lapply(unique(menuItems$item), function(item) {
+    subItems <- menuItems %>%
+      dplyr::filter(.data$item == .env$item) %>%
+      dplyr::pull("sub_item")
+    if (any(subItems != "")) {
+      subItems <- paste0(
+        "menuSubItem(\n", writeTabName(subItems),"\n)"
+      ) %>%
+        paste0(collapse = ",\n")
+      subItems <- paste0(",\n", subItems)
+    }
+    paste0("menuItem(\n", writeTabName(item), subItems, "\n)")
+  }) %>%
+    paste0(collapse = ",\n")
+}
+writeTabName <- function(name) {
+  paste0(
+    "text = \"", name, "\",\ntabName = \"", CDMUtilities::toSnakeCase(name),
+    "\""
+  )
 }
 combineBody <- function(modules) {
-  ""
+  body <- lapply(modules, function(x) {
+    body <- x[["body"]]
+    lapply(names(body), function(x) {
+      name <- CDMUtilities::toSnakeCase(x)
+      paste0(
+        "# ", name, " ----\ntabItem(\ntabName = \"", name, "\",\n", body[[x]],
+        "\n)"
+      )
+    }) %>%
+      unlist() %>%
+      paste0(collapse = ",\n")
+  }) %>%
+    unlist()
+  return(paste0(body[body != ""], collapse = ",\n"))
 }
 combineServer <- function(modules) {
   ""
 }
-exportFiles <- function(results, modules) {
+createEmptyProject <- function() {
+  c(
+    "Version: 1.0", "", "RestoreWorkspace: Default", "SaveWorkspace: Default",
+    "AlwaysSaveHistory: Default", "", "EnableCodeIndexing: Yes",
+    "UseSpacesForTab: Yes", "NumSpacesForTab: 2","Encoding: UTF-8", "",
+    "RnwWeave: Sweave", "LaTeX: pdfLaTeX"
+  ) %>%
+    paste0(collapse = "\n")
+}
+createZipFile <- function(shinyPath, zipFile, shiny, proj, results) {
+  # temporal directory
+  tempDir <- tempdir()
 
+  # create temp data folder
+  dataPath <- file.path(tempDir, "data")
+  if (!dir.exists(dataPath)) {
+    dir.create(dataPath, recursive = TRUE)
+  }
+
+  # export bound results
+  types <- attr(results, "specifications") %>%
+    dplyr::pull("result_type") %>%
+    unique()
+  for (type in types) {
+    nam <- attr(results, "specifications") %>%
+      dplyr::filter(.data$result_type == .env$type) %>%
+      dplyr::pull("result_name")
+    file <- file.path(tempDir, "data",  paste0(type, ".csv"))
+    readr::write_csv(
+      dplyr::bind_rows(results[nam]), file = file, progress = FALSE
+    )
+    files <- c(files, file)
+  }
+
+  # export Rproject
+  fileRproj <- file.path(tempDir, paste0(zipFile, ".Rproj"))
+  writeLines(proj, fileRproj)
+
+  # export shiny
+  fileApp <- file.path(tempDir, "app.R")
+  writeLines(shiny, fileApp)
+
+  # create zip file
+  zip::zipr(
+    zipfile = file.path(paste0(shinyPath, "/", zipFile, ".zip")),
+    files = c(dataPath, fileApp, fileRproj)
+  )
+
+  # eliminate temp files
+  unlink(tempDir)
+
+  return(invisible(TRUE))
 }
