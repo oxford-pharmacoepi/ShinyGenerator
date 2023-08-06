@@ -96,7 +96,7 @@ combineRead <- function(modules) {
   if (length(elements) > 0) {
     elements <- paste0(
       CDMUtilities::toCamelCase(elements), " <- read_csv(here(\"data\", \"",
-      elements, ".csv\"))", collapse = "\n"
+      elements, ".csv\"), col_types = cols(.default = \"c\"))", collapse = "\n"
     )
   } else {
     elements <- ""
@@ -135,7 +135,7 @@ combineBody <- function(modules) {
     lapply(names(body), function(x) {
       name <- CDMUtilities::toSnakeCase(x)
       paste0(
-        "# ", name, " ----\ntabItem(\ntabName = \"", name, "\",\n", body[[x]],
+        "### ", name, " ----\ntabItem(\ntabName = \"", name, "\",\n", body[[x]],
         "\n)"
       )
     }) %>%
@@ -179,7 +179,6 @@ createZipFile <- function(shinyPath, zipFile, shiny, proj, results) {
     readr::write_csv(
       dplyr::bind_rows(results[nam]), file = file, progress = FALSE
     )
-    files <- c(files, file)
   }
 
   # export Rproject
