@@ -80,19 +80,28 @@ listModules <- function(moduleName) {
   return(result)
 }
 combinePackages <- function(modules) {
-  lapply(modules, function(x) {
-    paste0("library(\"", x[["packages"]],"\")")
+  packages <- lapply(modules, function(x) {
+    x[["packages"]]
   }) %>%
     unlist() %>%
-    unique() %>%
-    paste0(collapse = "\n")
+    unique()
+  paste0("library(\"", packages[packages != ""],"\")", collapse = "\n")
 }
 combineRead <- function(modules) {
-  lapply(modules, function(x) {
+  elements <- lapply(modules, function(x) {
     x[["read"]]
   }) %>%
     unlist() %>%
-    paste0(collapse = "\n")
+    unique()
+  if (length(elements) > 0) {
+    elements <- paste0(
+      CDMUtilities::toCamelCase(elements), " <- read_csv(here(\"data\", \"",
+      elements, ".csv\"))", collapse = "\n"
+    )
+  } else {
+    elements <- ""
+  }
+  return(elements)
 }
 combineMenu <- function(modules) {
   menuItems <- lapply(modules, function(x) {
