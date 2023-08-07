@@ -75,7 +75,7 @@ listModules <- function(moduleName) {
   result <- list()
   result$moduleBackground <- moduleBackground
   for (module in moduleName) {
-    result[[module]] <- eval(parse(text = module))
+    result[[module]] <- get(module)
   }
   return(result)
 }
@@ -146,7 +146,19 @@ combineBody <- function(modules) {
   return(paste0(body[body != ""], collapse = ",\n"))
 }
 combineServer <- function(modules) {
-  ""
+  server <- lapply(modules, function(x) {
+    server <- x[["server"]]
+    lapply(names(server), function(x) {
+      name <- CDMUtilities::toSnakeCase(x)
+      paste0(
+        "## ", name, " ----\n", server[[x]], "\n"
+      )
+    }) %>%
+      unlist() %>%
+      paste0(collapse = "\n")
+  }) %>%
+    unlist()
+  return(paste0(server[server != ""], collapse = "\n"))
 }
 createEmptyProject <- function() {
   c(
