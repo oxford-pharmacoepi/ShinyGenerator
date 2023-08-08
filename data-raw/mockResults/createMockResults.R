@@ -32,6 +32,18 @@ inc %>%
   relocate(c("cdm_name", "result_type")) %>%
   write_csv(here::here("data-raw", "mockResults", "mockIncidence.csv"))
 
+prev <- estimatePointPrevalence(
+  cdm = cdm,
+  denominatorTable = "denominator",
+  outcomeTable = "outcome",
+  interval = "years"
+)
+
+prev %>%
+  mutate(result_type = "Prevalence estimates") %>%
+  relocate(c("cdm_name", "result_type")) %>%
+  write_csv(here::here("data-raw", "mockResults", "mockPrevalence.csv"))
+
 library(PatientProfiles)
 library(DrugUtilisation)
 cdm <- mockDrugUtilisation(numberIndividuals = 1000)
