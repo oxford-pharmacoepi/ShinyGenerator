@@ -1,4 +1,4 @@
-# This file contains the information for the incidence module
+# This file contains the information for the prevalence module
 style <- "\"display: inline-block;vertical-align:top; width: 150px;\""
 option <- "list(`actions-box` = TRUE, size = 10, `selected-text-format` = \"count > 3\")"
 selector <- function(id, lab) {
@@ -6,10 +6,10 @@ selector <- function(id, lab) {
     "div(
       style = \"display: inline-block;vertical-align:top; width: 150px;\",
       pickerInput(
-        inputId = \"incidence_estimates_", id,"\",
+        inputId = \"prevalence_estimates_", id,"\",
         label = \"", lab,"\",
-        choices = unique(incidenceEstimates$", id,"),
-        selected = unique(incidenceEstimates$", id,"),
+        choices = unique(prevalenceEstimates$", id,"),
+        selected = unique(prevalenceEstimates$", id,"),
         options = list(`actions-box` = TRUE, size = 10, `selected-text-format` = \"count > 3\"),
         multiple = TRUE
       )
@@ -20,14 +20,15 @@ variables <- c(
   "cdm_name", "outcome_cohort_name", "denominator_strata_cohort_name",
   "denominator_age_group", "denominator_sex",
   "denominator_days_prior_history", "denominator_start_date",
-  "denominator_end_date", "analysis_outcome_washout",
-  "analysis_repeated_events", "analysis_complete_database_intervals",
-  "analysis_min_cell_count", "analysis_interval", "incidence_start_date"
+  "denominator_end_date", "analysis_type", "analysis_outcome_lookback_days",
+  "analysis_time_point", "analysis_complete_database_intervals",
+  "analysis_full_contribution", "analysis_min_cell_count", "analysis_interval",
+  "prevalence_start_date"
 )
 {
-bodyIncidence <- c(
-  "h3(\"Incidence estimates\")",
-  "p(\"Incidence estimates are shown below, please select configuration to filter them:\")",
+bodyPrevalence <- c(
+  "h3(\"Prevalence estimates\")",
+  "p(\"Prevalence estimates are shown below, please select configuration to filter them:\")",
   "p(\"Database and study outcome\")",
   selector("cdm_name", "CDM name"),
   selector("outcome_cohort_name", "Outcome name"),
@@ -39,20 +40,22 @@ bodyIncidence <- c(
   selector("denominator_start_date", "Start date"),
   selector("denominator_end_date", "End date"),
   "p(\"Analysis settings\")",
-  selector("analysis_outcome_washout", "Outcome washout"),
-  selector("analysis_repeated_events", "Repeated events"),
+  selector("analysis_type", "Prevalence type"),
+  selector("analysis_outcome_lookback_days", "Lookback days"),
+  selector("analysis_time_point", "Time point"),
   selector("analysis_complete_database_intervals", "Complete period"),
+  selector("analysis_full_contribution", "Full contribution"),
   selector("analysis_min_cell_count", "Minimum counts"),
   "p(\"Dates\")",
   selector("analysis_interval", "Interval"),
-  selector("incidence_start_date", "Incidence start date"),
+  selector("prevalence_start_date", "Prevalence start date"),
   paste0(
     "tabsetPanel(
       type = \"tabs\",
       tabPanel(
         \"Table of estimates\",
-        downloadButton(\"incidence_estimates_download_table\", \"Download current estimates\"),
-        DTOutput(\"incidence_estimates_table\") %>% withSpinner()
+        downloadButton(\"prevalence_estimates_download_table\", \"Download current estimates\"),
+        DTOutput(\"prevalence_estimates_table\") %>% withSpinner()
       ),
       tabPanel(
         \"Plot of estimates\",
@@ -60,10 +63,10 @@ bodyIncidence <- c(
         div(
           style = #STYLE#,
           pickerInput(
-            inputId = \"incidence_estimates_plot_x\",
+            inputId = \"prevalence_estimates_plot_x\",
             label = \"x axis\",
             choices = c(\"", paste0(variables, collapse = "\", \""),"\"),
-            selected = \"incidence_start_date\",
+            selected = \"prevalence_start_date\",
             #OPTION#,
             multiple = FALSE
           )
@@ -71,7 +74,7 @@ bodyIncidence <- c(
         div(
           style = #STYLE#,
           pickerInput(
-            inputId = \"incidence_estimates_plot_facet\",
+            inputId = \"prevalence_estimates_plot_facet\",
             label = \"Facet by\",
             choices = c(\"", paste0(variables, collapse = "\", \""),"\"),
             selected = c(\"outcome_cohort_name\", \"cdm_name\"),
@@ -82,7 +85,7 @@ bodyIncidence <- c(
         div(
           style = #STYLE#,
           pickerInput(
-            inputId = \"incidence_estimates_plot_colour\",
+            inputId = \"prevalence_estimates_plot_colour\",
             label = \"Colour by\",
             choices = c(\"", paste0(variables, collapse = "\", \""),"\"),
             #OPTION#,
@@ -90,78 +93,77 @@ bodyIncidence <- c(
           )
         ),
         plotlyOutput(
-          \"incidence_estimates_plot\",
+          \"prevalence_estimates_plot\",
           height = \"800px\"
         ) %>%
           withSpinner(),
-        h4(\"Download figure\"),
+                h4(\"Download figure\"),
         div(\"height:\", style = \"display: inline-block; font-weight: bold; margin-right: 5px;\"),
         div(
           style = \"display: inline-block;\",
-          textInput(\"incidence_estimates_download_height\", \"\", 10, width = \"50px\")
+          textInput(\"prevalence_estimates_download_height\", \"\", 10, width = \"50px\")
         ),
         div(\"cm\", style = \"display: inline-block; margin-right: 25px;\"),
         div(\"width:\", style = \"display: inline-block; font-weight: bold; margin-right: 5px;\"),
         div(
           style = \"display: inline-block;\",
-          textInput(\"incidence_estimates_download_width\", \"\", 20, width = \"50px\")
+          textInput(\"prevalence_estimates_download_width\", \"\", 20, width = \"50px\")
         ),
         div(\"cm\", style = \"display: inline-block; margin-right: 25px;\"),
         div(\"dpi:\", style = \"display: inline-block; font-weight: bold; margin-right: 5px;\"),
         div(
           style = \"display: inline-block; margin-right:\",
-          textInput(\"incidence_estimates_download_dpi\", \"\", 300, width = \"50px\")
+          textInput(\"prevalence_estimates_download_dpi\", \"\", 300, width = \"50px\")
         ),
-        downloadButton(\"incidence_estimates_download_plot\", \"Download plot\")
+        downloadButton(\"prevalence_estimates_download_plot\", \"Download plot\")
       )
     )"
   )
 )
 }
-bodyIncidence <- gsub("#STYLE#", style, bodyIncidence)
-bodyIncidence <- gsub("#OPTION#", option, bodyIncidence)
-bodyIncidence <- paste0(bodyIncidence, collapse = ",\n")
+bodyPrevalence <- gsub("#STYLE#", style, bodyPrevalence)
+bodyPrevalence <- gsub("#OPTION#", option, bodyPrevalence)
+bodyPrevalence <- paste0(bodyPrevalence, collapse = ",\n")
 {
-  filterIncidenceEstimates <- paste0(
-    "filter(", variables, " %in% input$incidence_estimates_", variables, ")",
+  filterPrevalenceEstimates <- paste0(
+    "filter(", variables, " %in% input$prevalence_estimates_", variables, ")",
     collapse = " %>%\n"
   )
-serverIncidence <- c(
+serverPrevalence <- c(
   "### get estimates ----",
   paste0(
-    "getIncidenceEstimates <- reactive({
-      incidenceEstimates %>%\n",
-    filterIncidenceEstimates,
+    "getPrevalenceEstimates <- reactive({
+      prevalenceEstimates %>%\n",
+    filterPrevalenceEstimates,
     "%>%
     mutate(
-      person_years = round(suppressWarnings(as.numeric(person_years))),
-      person_days = round(suppressWarnings(as.numeric(person_days))),
-      n_events = round(suppressWarnings(as.numeric(n_events))),
-      incidence_100000_pys = round(suppressWarnings(as.numeric(incidence_100000_pys))),
-      incidence_100000_pys_95CI_lower = round(suppressWarnings(as.numeric(incidence_100000_pys_95CI_lower))),
-      incidence_100000_pys_95CI_upper = round(suppressWarnings(as.numeric(incidence_100000_pys_95CI_upper)))
+      n_cases = round(suppressWarnings(as.numeric(n_cases))),
+      n_population = round(suppressWarnings(as.numeric(n_population))),
+      prevalence = round(suppressWarnings(as.numeric(prevalence)), 4),
+      prevalence_95CI_lower = round(suppressWarnings(as.numeric(prevalence_95CI_lower)), 4),
+      prevalence_95CI_upper = round(suppressWarnings(as.numeric(prevalence_95CI_upper)), 4)
     )\n})"
   ),
   "### download table ----",
-  "output$incidence_estimates_download_table <- downloadHandler(
+  "output$prevalence_estimates_download_table <- downloadHandler(
     filename = function() {
-      \"incidenceEstimatesTable.csv\"
+      \"prevalenceEstimatesTable.csv\"
     },
     content = function(file) {
-      write_csv(getIncidenceEstimates(), file)
+      write_csv(getPrevalenceEstimates(), file)
     }
   )",
   "### table estimates ----",
   paste0(
-    "output$incidence_estimates_table <- renderDataTable({
-      table <- getIncidenceEstimates()
+    "output$prevalence_estimates_table <- renderDataTable({
+      table <- getPrevalenceEstimates()
       validate(need(nrow(table) > 0, \"No results for selected inputs\"))
       table <- table %>%
-        mutate(incidence_100000_pys = paste0(
-          incidence_100000_pys, \" (\", incidence_100000_pys_95CI_lower,\" to \",
-          incidence_100000_pys_95CI_upper, \" )\"
+        mutate(`prevalence (%)` = paste0(
+          100*prevalence, \" (\", 100*prevalence_95CI_lower,\" to \",
+          100*prevalence_95CI_upper, \" )\"
         )) %>%
-        select(", paste0(variables, collapse = ", "), ", n_events, n_persons, person_years, incidence_100000_pys)
+        select(", paste0(variables, collapse = ", "), ", n_cases, n_population, \"prevalence (%)\")
       datatable(
         table,
         rownames= FALSE,
@@ -171,52 +173,52 @@ serverIncidence <- c(
     })"
   ),
   "### make plot ----",
-  "plotIncidenceEstimates <- reactive({
-    table <- getIncidenceEstimates()
+  "plotPrevalenceEstimates <- reactive({
+    table <- getPrevalenceEstimates()
     validate(need(nrow(table) > 0, \"No results for selected inputs\"))
-    class(table) <- c(\"IncidenceResult\", \"IncidencePrevalenceResult\", class(table))
-    plotIncidence(
+    class(table) <- c(\"PrevalenceResult\", \"IncidencePrevalenceResult\", class(table))
+    plotPrevalence(
       table,
-      x = input$incidence_estimates_plot_x,
+      x = input$prevalence_estimates_plot_x,
       ylim = c(0, NA),
       ribbon = TRUE,
-      facet = input$incidence_estimates_plot_facet,
-      colour = input$incidence_estimates_plot_colour,
-      colour_name = paste0(input$incidence_estimates_plot_colour, collapse = \"; \")
+      facet = input$prevalence_estimates_plot_facet,
+      colour = input$prevalence_estimates_plot_colour,
+      colour_name = paste0(input$prevalence_estimates_plot_colour, collapse = \"; \")
     )
   })",
   "### download plot ----",
-  "output$incidence_estimates_download_plot <- downloadHandler(
+  "output$prevalence_estimates_download_plot <- downloadHandler(
     filename = function() {
-      \"incidenceEstimatesPlot.png\"
+      \"prevalenceEstimatesPlot.png\"
     },
     content = function(file) {
       ggsave(
         file,
-        plotIncidenceEstimates(),
-        width = as.numeric(input$incidence_estimates_download_width),
-        height = as.numeric(input$incidence_estimates_download_height),
-        dpi = as.numeric(input$incidence_estimates_download_dpi),
+        plotPrevalenceEstimates(),
+        width = as.numeric(input$prevalence_estimates_download_width),
+        height = as.numeric(input$prevalence_estimates_download_height),
+        dpi = as.numeric(input$prevalence_estimates_download_dpi),
         units = \"cm\"
       )
     }
   )",
   "### plot ----",
-  "output$incidence_estimates_plot <- renderPlotly({
-    plotIncidenceEstimates()
+  "output$prevalence_estimates_plot <- renderPlotly({
+    plotPrevalenceEstimates()
   })"
 ) %>%
   paste0(collapse = "\n")
 }
-moduleIncidence <- list(
+modulePrevalence <- list(
   packages = c(
     "readr", "here", "shinyWidgets", "DT", "plotly", "shinycssloaders",
     "IncidencePrevalence", "ggplot2"
   ),
-  read = c("Incidence estimates"),
+  read = c("Prevalence estimates"),
   menu = dplyr::tibble(
-    item = c("Incidence"), sub_item = c("Incidence estimates")
+    item = c("Prevalence"), sub_item = c("Prevalence estimates")
   ),
-  body = list("Incidence estimates" = bodyIncidence),
-  server = list("Incidence estimates" = serverIncidence)
+  body = list("Prevalence estimates" = bodyPrevalence),
+  server = list("Prevalence estimates" = serverPrevalence)
 )
