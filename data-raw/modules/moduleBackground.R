@@ -9,7 +9,7 @@ bodyBackground <- c(
   paste0(collapse = ",\n")
 
 moduleBackground <- list(
-  packages = c("shiny", "shinydashboard"),
+  packages = c("shiny", "shinydashboard", "dplyr"),
   menu = dplyr::tibble(item = "Background", sub_item = ""),
   body = list("Background" = bodyBackground)
 )
