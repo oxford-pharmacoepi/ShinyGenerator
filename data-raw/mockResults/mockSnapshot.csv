@@ -1,2 +1,2 @@
-cdm_name,cdm_source_name,cdm_description,cdm_documentation_reference,cdm_version,cdm_holder,cdm_release_date,vocabulary_version,person_count,observation_period_count,earliest_observation_period_start_date,latest_observation_period_end_date,snapshot_date
-CPRD AURUM,cdm_aurum_p21_000557,CPRD AURUM,https://ohdsi.github.io/ETL-LambdaBuilder/docs/CPRD_Aurum,5.3,OMOP,2018-06-14,v5.0 29-AUG-22,10592564,10592564,1909-01-01,2022-01-09,2023-08-08
+result_type,cdm_name,cdm_source_name,cdm_description,cdm_documentation_reference,cdm_version,cdm_holder,cdm_release_date,vocabulary_version,person_count,observation_period_count,earliest_observation_period_start_date,latest_observation_period_end_date,snapshot_date
+CDM snapshot,CPRD AURUM,cdm_aurum_p21_000557,CPRD AURUM,https://ohdsi.github.io/ETL-LambdaBuilder/docs/CPRD_Aurum,5.3,OMOP,2018-06-14,v5.0 29-AUG-22,10592564,10592564,1909-01-01,2022-01-09,2023-08-08

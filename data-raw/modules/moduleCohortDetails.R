@@ -32,7 +32,10 @@ bodyCohortCount <- c(
       )
     )",
   selector("cdm_name", "CDM name", "TRUE"),
-  "downloadButton(\"cohort_count_download_table\", \"Download current estimates\")",
+  "div(
+    style = \"margin-bottom: 20px;\",
+    downloadButton(\"cohort_count_download_table\", \"Download current counts\")
+  )",
   "DTOutput(\"cohort_count_table\") %>% withSpinner()"
 )
 bodyCohortCount <- paste0(bodyCohortCount, collapse = ",\n")
@@ -72,6 +75,81 @@ serverCohortCount <- c(
   })"
 ) %>%
   paste0(collapse = "\n")
+selector <- function(id, lab, multiple) {
+  paste0(
+    "div(
+      style = \"display: inline-block;vertical-align:top; width: 150px;\",
+      pickerInput(
+        inputId = \"cohort_attrition_", id, "\",
+        label = \"", lab, "\",
+        choices = unique(cohortDetails$", id, "),
+        selected = unique(cohortDetails$", id, "),
+        options = list(`actions-box` = TRUE, size = 10, `selected-text-format` = \"count > 3\"),
+        multiple = ", multiple, "
+      )
+    )"
+  )
+}
+bodyCohortAttrition <- c(
+  "h3(\"Cohort attrition\")",
+  "p(\"See the attrition for each cohort of the present study\")",
+  selector("cdm_name", "CDM name", "FALSE"),
+  "div(
+      style = \"display: inline-block;vertical-align:top; width: 200px;\",
+      pickerInput(
+        inputId = \"cohort_attrition_cohort_name\",
+        label = \"Cohort table and cohort name\",
+        choices = cohortDetails %>%
+          mutate(cohort_name = paste0(cohort_table_name, \": \", cohort_name)) %>%
+          select(cohort_name) %>% distinct() %>% pull(),
+        selected = cohortDetails %>%
+          head(1) %>%
+          mutate(cohort_name = paste0(cohort_table_name, \": \", cohort_name)) %>%
+          pull(cohort_name),
+        options = list(`actions-box` = TRUE, size = 10, `selected-text-format` = \"count > 3\"),
+        multiple = FALSE
+      )
+    )",
+  "div(
+    style = \"margin-bottom: 20px;\",
+    downloadButton(\"cohort_attrition_download_table\", \"Download current attrition\")
+  )",
+  "DTOutput(\"cohort_attrition_table\") %>% withSpinner()"
+) %>%
+  paste0(collapse = ",\n")
+serverCohortAttrition <- c(
+  "### get attrition ----",
+  "getCohortAttrition <- reactive({
+    cohortDetails %>%
+      mutate(cohort_name = paste0(cohort_table_name, \": \", cohort_name)) %>%
+      filter(cohort_name == input$cohort_attrition_cohort_name) %>%
+      filter(cdm_name == input$cohort_attrition_cdm_name) %>%
+      mutate(reason_id = as.numeric(reason_id)) %>%
+      arrange(reason_id) %>%
+      select(reason_id, reason, number_records, number_subjects, excluded_records, excluded_subjects)
+  })",
+  "### download table ----",
+  "output$cohort_attrition_download_table <- downloadHandler(
+    filename = function() {
+      \"cohortAttritionTable.csv\"
+    },
+    content = function(file) {
+      write_csv(getCohortAttrition(), file)
+    }
+  )",
+  "### table count ----",
+  "output$cohort_attrition_table <- renderDataTable({
+    table <- getCohortAttrition()
+    validate(need(nrow(table) > 0, \"No results for selected inputs\"))
+    datatable(
+      table,
+      rownames= FALSE,
+      extensions = 'Buttons',
+      options = list(scrollX = TRUE, scrollCollapse = TRUE, ordering = F)
+    )
+  })"
+) %>%
+  paste0(collapse = "\n")
 
 moduleCohortDetails <- list(
   packages = c(
@@ -79,8 +157,9 @@ moduleCohortDetails <- list(
   ),
   read = c("Cohort details"),
   menu = dplyr::tibble(
-    item = c("Cohort details"), sub_item = c("Cohort count")
+    item = c("Cohort details", "Cohort details"),
+    sub_item = c("Cohort count", "Cohort attrition")
   ),
-  body = list("Cohort count" = bodyCohortCount),
-  server = list("Cohort count" = serverCohortCount)
+  body = list("Cohort count" = bodyCohortCount, "Cohort attrition" = bodyCohortAttrition),
+  server = list("Cohort count" = serverCohortCount, "Cohort attrition" = serverCohortAttrition)
 )
