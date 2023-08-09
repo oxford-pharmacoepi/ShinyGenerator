@@ -8,6 +8,7 @@ source(here::here("data-raw", "modules", "moduleBackground.R"))
 source(here::here("data-raw", "modules", "moduleIncidence.R"))
 source(here::here("data-raw", "modules", "modulePrevalence.R"))
 source(here::here("data-raw", "modules", "moduleCharacteristics.R"))
+source(here::here("data-raw", "modules", "moduleCohortDetails.R"))
 
 # relation between modules and results_type
 relation <- readr::read_csv(
@@ -22,6 +23,7 @@ usethis::use_data(
   moduleIncidence,
   modulePrevalence,
   moduleCharacteristics,
+  moduleCohortDetails,
   relation,
   internal = TRUE, overwrite = TRUE
 )

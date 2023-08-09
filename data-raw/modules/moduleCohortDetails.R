@@ -25,8 +25,8 @@ bodyCohortCount <- c(
       pickerInput(
         inputId = \"cohort_count_count\",
         label = \"Count type\",
-        choices = c(\"Record count\", \"Subject count\"),
-        selected = \"Record count\",
+        choices = c(\"Number records\", \"Number subjects\"),
+        selected = \"Number records\",
         options = list(`actions-box` = TRUE, size = 10, `selected-text-format` = \"count > 3\"),
         multiple = FALSE
       )
@@ -40,10 +40,12 @@ serverCohortCount <- c(
   "### get counts ----",
   "getCohortCount <- reactive({
     cohortDetails %>%
-      filter(cdm_name = input$cohort_count_cdm_name) %>%
-      filter(cohort_table_name = input$cohort_table_name) %>%
+      mutate(reason_id = as.numeric(reason_id)) %>%
+      filter(cdm_name %in% input$cohort_count_cdm_name) %>%
+      filter(cohort_table_name %in% input$cohort_count_cohort_table_name) %>%
       group_by(cohort_name, cohort_table_name) %>%
       filter(reason_id == max(reason_id)) %>%
+      ungroup() %>%
       select(cohort_table_name, cohort_name, cdm_name, value = !!toSnakeCase(input$cohort_count_count)) %>%
       mutate(value = suppressWarnings(as.numeric(value))) %>%
       pivot_wider(names_from = cdm_name, values_from = value)
@@ -71,7 +73,7 @@ serverCohortCount <- c(
 ) %>%
   paste0(collapse = "\n")
 
-moduleCohortCount <- list(
+moduleCohortDetails <- list(
   packages = c(
     "readr", "here", "shinyWidgets", "DT", "tidyr", "CDMUtilities"
   ),
